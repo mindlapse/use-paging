@@ -5,6 +5,7 @@ interface UsePagingState {
   currentPage: Array<any>;
   pageIndex: number;
   perPage: number;
+  numPages: number;
 }
 
 interface UsePagingOptions {

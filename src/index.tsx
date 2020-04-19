@@ -15,6 +15,7 @@ const initialState : UsePagingState = {
   currentPage: [],
   pageIndex: 0,
   perPage: 30,
+  numPages: 0,
 };
 
 const init = (opts : UsePagingOptions) => () : UsePagingState => {
@@ -44,6 +45,7 @@ const setPage = (state:UsePagingState, rows:Array<any>, pageIndex:number) => {
 
     state = {
       ...state,
+      numPages,
       rows,
       pageIndex,
       currentPage: rows.slice(start, start + state.perPage),
@@ -103,7 +105,8 @@ export const usePaging = (rows:Array<any>, opts : UsePagingOptions = { perPage :
   return {
     currentPage: state.currentPage,
     pageIndex: state.pageIndex,
-    setPageIndex: (pageIndex: number) => dispatch(actions.setPageIndex(pageIndex)),
+    numPages: state.numPages,
+    jumpToPage: (pageIndex: number) => dispatch(actions.setPageIndex(pageIndex)),
     firstPage: () => dispatch(actions.setPageIndex(0)),
     lastPage: () => dispatch(actions.setPageIndex(Number.MAX_VALUE)),
     nextPage: () => dispatch(actions.nextPage()),

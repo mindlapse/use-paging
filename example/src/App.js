@@ -27,6 +27,7 @@ export default () => {
         <button onClick={() => setRows(rows === ROWS1 ? ROWS2 : ROWS1)}>
           Change List
         </button>
+        Num pages: {pages.numPages}
       </div>
     </>
   );

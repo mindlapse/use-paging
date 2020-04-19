@@ -44,6 +44,7 @@ export default () => {
         <button onClick={() => setRows(rows === ROWS1 ? ROWS2 : ROWS1)}>
           Change List
         </button>
+        Num pages: {pages.numPages}
       </div>
     </>
   );
@@ -61,8 +62,8 @@ Next page
     perPage : 2   // Default is 30
   }
 
-
-  const pages = usePaging(someArray, options)
+  
+  const pages = usePaging(someArray, options)   // note: the options object can be omitted
 
 
   // usePaging state:
@@ -75,6 +76,8 @@ Next page
       // Current page index
       console.log(pages.pageIndex)
 
+      // Total pages
+      console.log(pages.numPages)
 
 
   // usePaging actions:
@@ -93,6 +96,9 @@ Next page
 
       // To use a different set of rows (the pageIndex is kept)
       pages.setRows(newArray)
+
+      // Jump to an arbitrary 0-based page index (e.g. jump to page at index 5)
+      pages.jumpToPage(5)
 
 
 ```
