@@ -11,7 +11,7 @@ const types = {
 
 const initialState : UsePagingState = {
   rows: [],
-  pageRows: [],
+  currentPage: [],
   pageIndex: 0,
   perPage: 30,
 };
@@ -43,7 +43,7 @@ const setPage = (state:UsePagingState, rows:Array<any>, pageIndex:number) => {
       ...state,
       rows,
       pageIndex,
-      pageRows: rows.slice(start, start + state.perPage),
+      currentPage: rows.slice(start, start + state.perPage),
     };
   }
   return state;
@@ -81,7 +81,7 @@ const actions : UsePagingActions = {
   }),
 };
 
-const usePaging = (rows:Array<any> = [], opts : UsePagingOptions = { perPage : PER_PAGE }) => {
+export const usePaging = (rows:Array<any> = [], opts : UsePagingOptions = { perPage : PER_PAGE }) => {
   const [state, dispatch] = useReducer(reducer, initialState, init(opts));
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const usePaging = (rows:Array<any> = [], opts : UsePagingOptions = { perPage : P
 
   return {
     pages: {
-      pageRows: state.pageRows,
+      currentPage: state.currentPage,
       pageIndex: state.pageIndex,
       nextPage: () => dispatch(actions.nextPage()),
       prevPage: () => dispatch(actions.prevPage()),
@@ -99,4 +99,3 @@ const usePaging = (rows:Array<any> = [], opts : UsePagingOptions = { perPage : P
   };
 };
 
-export default usePaging;

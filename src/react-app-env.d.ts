@@ -2,7 +2,7 @@
 
 interface UsePagingState {
   rows: Array<any>;
-  pageRows: Array<any>;
+  currentPage: Array<any>;
   pageIndex: number;
   perPage: number;
 }
