@@ -54,7 +54,12 @@ Next page
 ```tsx
 
 
-const pages = usePaging(someArray, { perPage: 2 })
+  const options = {
+    perPage : 2   // Default is 30
+  }
+
+
+  const pages = usePaging(someArray, options)
 
 
   // usePaging state:
