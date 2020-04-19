@@ -1,6 +1,6 @@
 {
   "name": "use-paging",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A hook for paginating an array",
   "author": "mindlapse",
   "license": "MIT",

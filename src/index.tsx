@@ -7,6 +7,7 @@ const types = {
   NEXT_PAGE: "NEXT_PAGE",
   PREV_PAGE: "PREV_PAGE",
   SET_ROWS: "SET_ROWS",
+  SET_PAGE_INDEX: "SET_PAGE_INDEX",
 };
 
 const initialState : UsePagingState = {
@@ -24,17 +25,19 @@ const init = (opts : UsePagingOptions) => () : UsePagingState => {
 };
 
 const setPage = (state:UsePagingState, rows:Array<any>, pageIndex:number) => {
-  const isNewRows = state.rows !== rows;
-  const isNewPageIndex = state.pageIndex !== pageIndex;
   const numPages = Math.ceil(rows.length / state.perPage);
 
+  if (pageIndex === Number.MAX_VALUE || pageIndex >= numPages) {
+    pageIndex = numPages - 1
+  }
+  if (pageIndex < 0) {
+    pageIndex = 0;
+  }
+
+  const isNewRows = state.rows !== rows;
+  const isNewPageIndex = state.pageIndex !== pageIndex;
+
   if (isNewPageIndex || isNewRows) {
-    if (pageIndex * state.perPage >= rows.length) {
-      pageIndex = numPages - 1;
-    }
-    if (pageIndex < 0) {
-      pageIndex = 0;
-    }
 
     const start =
       Math.max(0, Math.min(pageIndex, numPages - 1)) * state.perPage;
@@ -60,6 +63,9 @@ const reducer : Reducer<UsePagingState, Action>= (state, action) => {
     case types.SET_ROWS:
       state = setPage(state, (action as SetRowsAction).rows, state.pageIndex);
       break;
+    case types.SET_PAGE_INDEX:
+      state = setPage(state, state.rows, (action as SetPageIndexAction).pageIndex)
+      break;
     default:
       console.error(action);
       throw new Error("action.type not recognized");
@@ -79,6 +85,10 @@ const actions : UsePagingActions = {
     type: types.SET_ROWS,
     rows,
   }),
+  setPageIndex: (pageIndex:number) => ({
+    type: types.SET_PAGE_INDEX,
+    pageIndex
+  })
 };
 
 export const usePaging = (rows:Array<any>, opts : UsePagingOptions = { perPage : PER_PAGE }) => {
@@ -93,6 +103,9 @@ export const usePaging = (rows:Array<any>, opts : UsePagingOptions = { perPage :
   return {
     currentPage: state.currentPage,
     pageIndex: state.pageIndex,
+    setPageIndex: (pageIndex: number) => dispatch(actions.setPageIndex(pageIndex)),
+    firstPage: () => dispatch(actions.setPageIndex(0)),
+    lastPage: () => dispatch(actions.setPageIndex(Number.MAX_VALUE)),
     nextPage: () => dispatch(actions.nextPage()),
     prevPage: () => dispatch(actions.prevPage()),
     setRows: (rows:[]) => dispatch(actions.setRows(rows)),

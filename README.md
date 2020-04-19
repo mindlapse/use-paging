@@ -15,7 +15,6 @@ npm install --save use-paging
 
 ```tsx
 
-
 import React, { useState } from "react";
 import { usePaging } from "use-paging";
 
@@ -33,8 +32,12 @@ export default () => {
         {pages.currentPage.map((row, i) => (
           <div key={i}>{row}</div>
         ))}
+      </div>
+      <div>
+        <button onClick={pages.firstPage}>First</button>
         <button onClick={pages.prevPage}>Prev</button>
         <button onClick={pages.nextPage}>Next</button>
+        <button onClick={pages.lastPage}>Last</button>
       </div>
 
       <div>
