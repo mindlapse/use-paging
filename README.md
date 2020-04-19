@@ -79,11 +79,17 @@ Next page
 
   // usePaging actions:
 
-      // To skip to the next page
+      // Skip to the first page
+      pages.firstPage()
+
+      // Skip to the next page
       pages.nextPage()
 
-      // To skip to the previous page
+      // Skip to the previous page
       pages.prevPage()  
+
+      // Skip to the last page
+      pages.lastPage()
 
       // To use a different set of rows (the pageIndex is kept)
       pages.setRows(newArray)
