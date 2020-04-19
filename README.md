@@ -14,58 +14,73 @@ npm install --save use-paging
 ## Usage
 
 ```tsx
-import React from "react";
+
+
+import React, { useState } from "react";
 import { usePaging } from "use-paging";
 
-function App() {
-  const ROWS1 = ["A1", "A2", "B1", "B2", "C1"];
-  const ROWS2 = ["X1", "X2", "Y1"];
+const ROWS1 = ["A1", "A2", "B1", "B2", "C1"];
+const ROWS2 = ["X1", "X2", "Y1"];
 
-  const { pages } = usePaging(ROWS1, { perPage: 2 });
+export default () => {
+  const [rows, setRows] = useState(ROWS1);
+
+  const pages = usePaging(rows, { perPage: 2 });
 
   return (
     <>
-      <div className="App">
-        {pages.currentPage.map((row) => (
-          <div key={row}>{row}</div>
+      <div>
+        {pages.currentPage.map((row, i) => (
+          <div key={i}>{row}</div>
         ))}
-
         <button onClick={pages.prevPage}>Prev</button>
         <button onClick={pages.nextPage}>Next</button>
       </div>
 
       <div>
-        <button onClick={() => pages.setRows(ROWS2)}>Swap List</button>
+        <button onClick={() => setRows(rows === ROWS1 ? ROWS2 : ROWS1)}>
+          Change List
+        </button>
       </div>
     </>
   );
-}
+};
 
-export default App;
 ```
 
 ## Reference
 
 Next page
 ```tsx
-const { pages } = usePaging(someArray, { perPage: 2 })
 
-// To iterate across the current page
-pages.currentPage.map((row, i) => (
-  <div key={i}>{row}</div>
-))
 
-// To skip to the next page
-pages.nextPage()
+const pages = usePaging(someArray, { perPage: 2 })
 
-// To skip to the previous page
-pages.prevPage()  
 
-// To obtain the current page index
-pages.pageIndex
+  // usePaging state:
 
-// To use a different set of rows (the pageIndex is kept)
-pages.setRows(newArray)
+      // To iterate across the current page
+      pages.currentPage.map((row, i) => (
+        <div key={i}>{row}</div>
+      ))
+
+      // Current page index
+      console.log(pages.pageIndex)
+
+
+
+  // usePaging actions:
+
+      // To skip to the next page
+      pages.nextPage()
+
+      // To skip to the previous page
+      pages.prevPage()  
+
+      // To use a different set of rows (the pageIndex is kept)
+      pages.setRows(newArray)
+
+
 ```
 
 

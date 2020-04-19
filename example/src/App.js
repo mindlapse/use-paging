@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { usePaging } from "use-paging";
 
-export default () => {
-  const ROWS1 = ["A1", "A2", "B1", "B2", "C1"];
-  const ROWS2 = ["X1", "X2", "Y1"];
+const ROWS1 = ["A1", "A2", "B1", "B2", "C1"];
+const ROWS2 = ["X1", "X2", "Y1"];
 
-  const { pages } = usePaging(ROWS1);
+export default () => {
+  const [rows, setRows] = useState(ROWS1);
+
+  const pages = usePaging(rows, { perPage: 2 });
 
   return (
     <>
@@ -18,7 +20,9 @@ export default () => {
       </div>
 
       <div>
-        <button onClick={() => pages.setRows(ROWS2)}>Change List</button>
+        <button onClick={() => setRows(rows === ROWS1 ? ROWS2 : ROWS1)}>
+          Change List
+        </button>
       </div>
     </>
   );

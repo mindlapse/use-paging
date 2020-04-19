@@ -1,7 +1,7 @@
 import { useReducer, useEffect, Reducer } from "react";
 
 
-const PER_PAGE = 2;
+const PER_PAGE = 30;
 
 const types = {
   NEXT_PAGE: "NEXT_PAGE",
@@ -81,21 +81,21 @@ const actions : UsePagingActions = {
   }),
 };
 
-export const usePaging = (rows:Array<any> = [], opts : UsePagingOptions = { perPage : PER_PAGE }) => {
+export const usePaging = (rows:Array<any>, opts : UsePagingOptions = { perPage : PER_PAGE }) => {
   const [state, dispatch] = useReducer(reducer, initialState, init(opts));
 
   useEffect(() => {
-    setTimeout(() => dispatch(actions.setRows(rows)), 0);
-  }, []);
+    if (rows) {
+      setTimeout(() => dispatch(actions.setRows(rows)), 0);
+    }
+  }, [rows]);
 
   return {
-    pages: {
-      currentPage: state.currentPage,
-      pageIndex: state.pageIndex,
-      nextPage: () => dispatch(actions.nextPage()),
-      prevPage: () => dispatch(actions.prevPage()),
-      setRows: (rows:[]) => dispatch(actions.setRows(rows)),
-    },
+    currentPage: state.currentPage,
+    pageIndex: state.pageIndex,
+    nextPage: () => dispatch(actions.nextPage()),
+    prevPage: () => dispatch(actions.prevPage()),
+    setRows: (rows:[]) => dispatch(actions.setRows(rows)),
   };
 };
 
